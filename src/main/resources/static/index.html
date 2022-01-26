@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+<div id="container">
+    <div id="error"></div>
+    <table id="miner_stat">
+        <tbody>
+        <tr>
+            <td class="column_title" colspan="2" id="miner_name">Miner</td>
+        </tr>
+        <tr>
+            <td class="column_title">Status</td>
+            <td id="status"></td>
+        </tr>
+        <tr>
+            <td class="column_title">Algorithm</td>
+            <td id="algorithm"></td>
+        </tr>
+        <tr>
+            <td class="column_title">Shares/Minute</td>
+            <td id="shares_per_minute"></td>
+        </tr>
+        <tr>
+            <td class="column_title">Uptime</td>
+            <td id="uptime"></td>
+        </tr>
+        <tr>
+            <td class="column_title">Electricity</td>
+            <td id="electricity"></td>
+        </tr>
+        <tr>
+            <td class="column_title">Server</td>
+            <td id="server"></td>
+        </tr>
+        <tr>
+            <td class="column_title">User</td>
+            <td id="user"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table id="device_stat" class="device_stat_default">
+        <tbody>
+        <tr>
+            <td class="column_title" colspan="9">GPUs</td>
+        </tr>
+        <tr>
+            <td class="column_title">Rig#</td>
+            <td class="column_title">ID</td>
+            <td class="column_title">GPU</td>
+            <td class="column_title">Fan</td>
+            <td class="column_title">Temperature</td>
+            <td class="column_title">Speed</td>
+            <td class="column_title">Power</td>
+            <td class="column_title">Efficiency</td>
+            <td class="column_title">Shares</td>
+        </tr>
+        <tr id="total">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+body {
+    background: #3f3f3f;
+    color: #bbb;
+}
+
+#container {
+    width: 950px;
+    background: #4f4f4f;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #222;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table tr td {
+    empty-cells: show;
+    background: #3f3f3f;
+    font-size: 80%;
+    border: 1px solid #5f5f5f;
+    max-width: 0;
+    padding: 7px 3px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#miner_stat tr td {
+    width: 50%;
+}
+
+#device_stat {
+    margin-top: 10px;
+}
+
+#error {
+    color: #e33;
+    text-align: center;
+    display: none;
+}
+
+* {
+    font-family: helvetica;
+}
+
+.column_title {
+    font-weight: bold;
+}
+
+.text_red {
+    color: #e33;
+}
+
+.text_green {
+    color: #3d3;
+}
+
+.text_yellow {
+    color: #dc4;
+}
