@@ -11,6 +11,7 @@ import me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse;
 import me.sokdak.miningstatproxy.repository.MinerRepository;
 import me.sokdak.miningstatproxy.service.mapper.DeviceMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -25,6 +26,7 @@ public class MinerStatService {
     return miners.stream().map(DeviceMapper::map).collect(Collectors.toList());
   }
 
+  @Transactional
   public GMinerStatResponse update(String ip, String minerType, GMinerStatResponse response) {
     Optional<Miner> miner = minerRepository.findById(ip);
 
@@ -32,7 +34,7 @@ public class MinerStatService {
     if (miner.isEmpty()) {
       log.info(">> not found miner ip: {}, type: {}", ip, minerType);
 
-      // update
+      // create
       minerEntity =
           DeviceMapper.map(ip, minerType, ZonedDateTime.now(), ZonedDateTime.now(), response);
     } else {
@@ -42,7 +44,7 @@ public class MinerStatService {
           miner.get().getMinerType(),
           miner.get().getUpdatedTime());
 
-      // create
+      // update
       minerEntity =
           DeviceMapper.map(
               ip, minerType, miner.get().getCreatedTime(), ZonedDateTime.now(), response);
