@@ -22,7 +22,7 @@ public class Device {
   private int memoryTemperature;
   private int powerUsage;
 
-  public String getId(String rigId, String devNo) {
+  public static String toGlobalId(String rigId, String devNo) {
     return "%s_%s".formatted(rigId, devNo);
   }
 }

@@ -1,6 +1,8 @@
 package me.sokdak.miningstatproxy.service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,40 @@ public class MinerStatService {
 
   public List<GMinerStatResponse> list() {
     List<Miner> miners = minerRepository.findAll();
+    log.info(">> list all miners: {}", (long) miners.size());
+
     return miners.stream().map(DeviceMapper::map).collect(Collectors.toList());
+  }
+
+  public GMinerStatResponse update(String ip, String minerType, GMinerStatResponse response) {
+    Optional<Miner> miner = minerRepository.findById(ip);
+
+    Miner minerEntity;
+    if (miner.isEmpty()) {
+      log.info(">> not found miner ip: {}, type: {}", ip, minerType);
+
+      // update
+      minerEntity =
+          DeviceMapper.map(ip, minerType, ZonedDateTime.now(), ZonedDateTime.now(), response);
+    } else {
+      log.info(
+          ">> found miner ip: {}, type: {}, lastUpdatedTime: {}",
+          miner.get().getIp(),
+          miner.get().getMinerType(),
+          miner.get().getUpdatedTime());
+
+      // create
+      minerEntity =
+          DeviceMapper.map(
+              ip, minerType, miner.get().getCreatedTime(), ZonedDateTime.now(), response);
+    }
+
+    Miner persistedMiner = minerRepository.saveAndFlush(minerEntity);
+    return DeviceMapper.map(persistedMiner);
+  }
+
+  public void delete(String ip) {
+    log.info(">> delete miner {}", ip);
+    minerRepository.deleteById(ip);
   }
 }
