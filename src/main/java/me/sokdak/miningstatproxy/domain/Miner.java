@@ -23,6 +23,7 @@ public class Miner {
 
   private String algorithm;
 
+  private String minerType;
   private ZonedDateTime createdTime;
   private ZonedDateTime updatedTime;
 

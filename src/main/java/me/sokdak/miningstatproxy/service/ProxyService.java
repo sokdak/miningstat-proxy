@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class StatService {
+public class ProxyService {
   private final MinerTemplateProperties minerTemplateProperties;
   private final SimpleClient simpleClient;
   private final ObjectMapper objectMapper;

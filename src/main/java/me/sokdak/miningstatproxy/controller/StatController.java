@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse;
 import me.sokdak.miningstatproxy.property.SecurityProperties;
-import me.sokdak.miningstatproxy.service.StatService;
+import me.sokdak.miningstatproxy.service.ProxyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class StatController {
   private final SecurityProperties securityConfig;
-  private final StatService statService;
+  private final ProxyService statService;
 
   @GetMapping("/{rigId}")
   public ResponseEntity<GMinerStatResponse> get(
