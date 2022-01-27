@@ -1,0 +1,6 @@
+security:
+  api-key: dhqjzmffjr1!
+template:
+  gminer-http-template: http://%s:%s/stat
+  trexminer-http-template: http://%s:%s/summary
+  tredminer-rpc-template: eyJjb21tYW5kIjoic3VtbWFyeStkZXZzK2RldmRldGFpbHMrcG9vbHMifQ==

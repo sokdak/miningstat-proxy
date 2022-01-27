@@ -1,4 +1,4 @@
-package me.sokdak.miningstatproxy.config;
+package me.sokdak.miningstatproxy.property;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,9 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Getter
 @RequiredArgsConstructor
 @ConstructorBinding
-@ConfigurationProperties(prefix = "endpoint")
-public class MinerHttpTemplateConfig {
-    private final String gminerUriTemplate;
-    private final String trexminerUriTemplate;
+@ConfigurationProperties(prefix = "template")
+public class MinerTemplateProperties {
+  private final String gminerHttpTemplate;
+  private final String trexminerHttpTemplate;
+  private final String tredminerRpcTemplate;
 }

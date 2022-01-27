@@ -1,13 +1,12 @@
 package me.sokdak.miningstatproxy.client;
 
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
 
 @Component
 @RequiredArgsConstructor

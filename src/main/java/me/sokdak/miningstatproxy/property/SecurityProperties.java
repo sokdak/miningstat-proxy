@@ -1,4 +1,4 @@
-package me.sokdak.miningstatproxy.config;
+package me.sokdak.miningstatproxy.property;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @RequiredArgsConstructor
 @ConstructorBinding
 @ConfigurationProperties(prefix = "security")
-public class SecurityConfig {
-    private final String apiKey;
+public class SecurityProperties {
+  private final String apiKey;
 }
