@@ -28,7 +28,20 @@ public class ProxyService {
   private final SimpleClient simpleClient;
   private final ObjectMapper objectMapper;
 
-  public GMinerStatResponse getGminerStat(String rigId, String ip, int port) {
+  public GMinerStatResponse getMinerStat(String ip, int port, String type) throws IOException {
+    switch (type) {
+      case "gminer":
+        return getGminerStat(ip, port);
+      case "tredminer":
+        return getTRminerStat(ip, port);
+      case "trexminer":
+        return getTrexminerStat(ip, port);
+      default:
+        throw new RuntimeException("minerType %s is not supported".formatted(type));
+    }
+  }
+
+  public GMinerStatResponse getGminerStat(String ip, int port) {
     log.info("> getGminerStat: {}:{}", ip, port);
     String url = String.format(minerTemplateProperties.getGminerHttpTemplate(), ip, port);
     GMinerStatResponse response = simpleClient.sendGet(URI.create(url), GMinerStatResponse.class);
@@ -36,7 +49,7 @@ public class ProxyService {
     return GMinerMapper.map(response);
   }
 
-  public GMinerStatResponse getTRminerStat(String rigId, String ip, int port) throws IOException {
+  public GMinerStatResponse getTRminerStat(String ip, int port) throws IOException {
     log.info("> getTRMinerStat: {}:{}", ip, port);
 
     // open
@@ -76,7 +89,7 @@ public class ProxyService {
     return TeamRedMinerMapper.map(response);
   }
 
-  public GMinerStatResponse getTrexminerStat(String rigId, String ip, int port) {
+  public GMinerStatResponse getTrexminerStat(String ip, int port) {
     log.info(String.format("> getTrexminerStat: %s:%s", ip, port));
     String url = String.format(minerTemplateProperties.getTrexminerHttpTemplate(), ip, port);
     TRexMinerStatResponse response =

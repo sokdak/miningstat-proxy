@@ -1,5 +1,6 @@
 package me.sokdak.miningstatproxy.service;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class StatPersistService {
   private final MinerRepository minerRepository;
+  private final ProxyService proxyService;
 
   public List<GMinerStatResponse> list() {
     List<Miner> miners = minerRepository.findAll();
@@ -27,13 +29,22 @@ public class StatPersistService {
   }
 
   @Transactional
-  public GMinerStatResponse update(
-      String rigId, String ip, String port, String minerType, GMinerStatResponse response) {
+  public void register(String rigId, String ip, String port, String type) throws IOException {
+    this.update(rigId, ip, port, type);
+  }
+
+  @Transactional
+  public GMinerStatResponse update(String rigId, String ip, String port, String minerType)
+      throws IOException {
     Optional<Miner> miner = minerRepository.findById(ip);
 
     Miner minerEntity;
     if (miner.isEmpty()) {
-      log.info(">> not found miner ip: {}, type: {}", ip, minerType);
+      log.info(">> data not found for miner ip: {}, type: {}", ip, minerType);
+
+      // get
+      GMinerStatResponse response =
+          proxyService.getMinerStat(ip, Integer.parseInt(port), minerType);
 
       // create
       minerEntity =
@@ -41,11 +52,15 @@ public class StatPersistService {
               ip, minerType, rigId, port, ZonedDateTime.now(), ZonedDateTime.now(), response);
     } else {
       log.info(
-          ">> found miner rigId: {}, ip: {}, type: {}, lastUpdatedTime: {}",
+          ">> previous data found miner rigId: {}, ip: {}, type: {}, lastUpdatedTime: {}",
           miner.get().getRigId(),
           miner.get().getIp(),
           miner.get().getMinerType(),
           miner.get().getUpdatedTime());
+
+      // get
+      GMinerStatResponse response =
+          proxyService.getMinerStat(ip, Integer.parseInt(port), minerType);
 
       // update
       minerEntity =

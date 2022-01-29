@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GMinerStatResponse {
-  private int uptime;
+  private Integer uptime;
   private String server;
   private String user;
   private String algorithm;

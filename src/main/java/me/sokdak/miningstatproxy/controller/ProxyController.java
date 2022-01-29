@@ -15,9 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/stat")
 @RequiredArgsConstructor
-public class StatController {
+public class ProxyController {
   private final SecurityProperties securityConfig;
-  private final ProxyService statService;
+  private final ProxyService proxyService;
 
   @GetMapping("/{rigId}")
   public ResponseEntity<GMinerStatResponse> get(
@@ -29,17 +29,6 @@ public class StatController {
       throws IOException {
     if (!key.equals(securityConfig.getApiKey()))
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "api key does not match");
-
-    switch (type) {
-      case "gminer":
-        return ResponseEntity.ok(statService.getGminerStat(rigId, ip, port));
-      case "tredminer":
-        return ResponseEntity.ok(statService.getTRminerStat(rigId, ip, port));
-      case "trexminer":
-        return ResponseEntity.ok(statService.getTrexminerStat(rigId, ip, port));
-      default:
-        throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST, String.format("type is not supported %s", type));
-    }
+    return ResponseEntity.ok(proxyService.getMinerStat(ip, port, type));
   }
 }
