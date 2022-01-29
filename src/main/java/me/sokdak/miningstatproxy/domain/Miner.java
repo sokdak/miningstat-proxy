@@ -2,10 +2,7 @@ package me.sokdak.miningstatproxy.domain;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import lombok.*;
 
 @Data
@@ -23,10 +20,12 @@ public class Miner {
 
   private String algorithm;
 
+  private String rigId;
   private String minerType;
+  private String apiPort;
   private ZonedDateTime createdTime;
   private ZonedDateTime updatedTime;
 
-  @OneToMany(orphanRemoval = true)
+  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
   private List<Device> devices;
 }
