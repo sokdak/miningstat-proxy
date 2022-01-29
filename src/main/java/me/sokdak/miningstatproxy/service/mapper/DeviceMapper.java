@@ -34,6 +34,8 @@ public class DeviceMapper {
   public static Miner map(
       String ip,
       String minerType,
+      String rigId,
+      String apiPort,
       ZonedDateTime createdTime,
       ZonedDateTime updatedTime,
       GMinerStatResponse response) {
@@ -43,7 +45,9 @@ public class DeviceMapper {
         response.getServer(),
         response.getUser(),
         response.getAlgorithm(),
+        rigId,
         minerType,
+        apiPort,
         createdTime,
         updatedTime,
         response.getDevices().stream()

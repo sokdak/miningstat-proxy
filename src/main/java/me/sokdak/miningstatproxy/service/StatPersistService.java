@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MinerStatService {
+public class StatPersistService {
   private final MinerRepository minerRepository;
 
   public List<GMinerStatResponse> list() {
@@ -27,7 +27,8 @@ public class MinerStatService {
   }
 
   @Transactional
-  public GMinerStatResponse update(String ip, String minerType, GMinerStatResponse response) {
+  public GMinerStatResponse update(
+      String rigId, String ip, String port, String minerType, GMinerStatResponse response) {
     Optional<Miner> miner = minerRepository.findById(ip);
 
     Miner minerEntity;
@@ -36,10 +37,12 @@ public class MinerStatService {
 
       // create
       minerEntity =
-          DeviceMapper.map(ip, minerType, ZonedDateTime.now(), ZonedDateTime.now(), response);
+          DeviceMapper.map(
+              ip, minerType, rigId, port, ZonedDateTime.now(), ZonedDateTime.now(), response);
     } else {
       log.info(
-          ">> found miner ip: {}, type: {}, lastUpdatedTime: {}",
+          ">> found miner rigId: {}, ip: {}, type: {}, lastUpdatedTime: {}",
+          miner.get().getRigId(),
           miner.get().getIp(),
           miner.get().getMinerType(),
           miner.get().getUpdatedTime());
@@ -47,7 +50,13 @@ public class MinerStatService {
       // update
       minerEntity =
           DeviceMapper.map(
-              ip, minerType, miner.get().getCreatedTime(), ZonedDateTime.now(), response);
+              miner.get().getIp(),
+              miner.get().getMinerType(),
+              miner.get().getRigId(),
+              miner.get().getApiPort(),
+              miner.get().getCreatedTime(),
+              ZonedDateTime.now(),
+              response);
     }
 
     Miner persistedMiner = minerRepository.saveAndFlush(minerEntity);
