@@ -1,6 +1,5 @@
 package me.sokdak.miningstatproxy.service;
 
-import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +10,10 @@ import me.sokdak.miningstatproxy.domain.Miner;
 import me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse;
 import me.sokdak.miningstatproxy.repository.MinerRepository;
 import me.sokdak.miningstatproxy.service.mapper.DeviceMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
@@ -28,14 +29,20 @@ public class StatPersistService {
     return miners.stream().map(DeviceMapper::map).collect(Collectors.toList());
   }
 
+  public GMinerStatResponse get(String rigId) {
+    log.info(">> get miner: {}", rigId);
+    Optional<Miner> miner = minerRepository.findByRigId(rigId);
+    if (miner.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "rigId not found");
+    return DeviceMapper.map(miner.get());
+  }
+
   @Transactional
-  public void register(String rigId, String ip, String port, String type) throws IOException {
+  public void register(String rigId, String ip, String port, String type) {
     this.update(rigId, ip, port, type);
   }
 
   @Transactional
-  public GMinerStatResponse update(String rigId, String ip, String port, String minerType)
-      throws IOException {
+  public GMinerStatResponse update(String rigId, String ip, String port, String minerType) {
     Optional<Miner> miner = minerRepository.findById(ip);
 
     Miner minerEntity;

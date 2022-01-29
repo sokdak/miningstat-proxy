@@ -28,7 +28,7 @@ public class ProxyService {
   private final SimpleClient simpleClient;
   private final ObjectMapper objectMapper;
 
-  public GMinerStatResponse getMinerStat(String ip, int port, String type) throws IOException {
+  public GMinerStatResponse getMinerStat(String ip, int port, String type) {
     switch (type) {
       case "gminer":
         return getGminerStat(ip, port);
@@ -49,44 +49,49 @@ public class ProxyService {
     return GMinerMapper.map(response);
   }
 
-  public GMinerStatResponse getTRminerStat(String ip, int port) throws IOException {
+  public GMinerStatResponse getTRminerStat(String ip, int port) {
     log.info("> getTRMinerStat: {}:{}", ip, port);
 
     // open
-    Socket socket = new Socket(ip, port);
-    DataInputStream input = new DataInputStream(socket.getInputStream());
-    DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+    try {
+      Socket socket = new Socket(ip, port);
+      DataInputStream input = new DataInputStream(socket.getInputStream());
+      DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
-    if (socket.isConnected()) {
-      log.debug(">> socket connected to {}:{}", ip, port);
-    } else {
-      log.error(">> failed to connect to {}:{}", ip, port);
+      if (socket.isConnected()) {
+        log.debug(">> socket connected to {}:{}", ip, port);
+      } else {
+        log.error(">> failed to connect to {}:{}", ip, port);
+      }
+
+      // write
+      String requestBodyBase64 = minerTemplateProperties.getTredminerRpcTemplate();
+      log.debug(
+          ">> write body: {}",
+          new String(Base64.getDecoder().decode(requestBodyBase64), StandardCharsets.UTF_8));
+      output.write(Base64.getDecoder().decode(requestBodyBase64));
+
+      // read
+      byte[] resultBytes = input.readAllBytes();
+      log.debug(">> read {}bytes from stream", resultBytes.length);
+
+      String result = new String(resultBytes, StandardCharsets.UTF_8);
+      log.debug(">> string converted: {}", result);
+
+      // close
+      if (!socket.isClosed()) {
+        socket.close();
+      }
+
+      TeamRedMinerStatResponse response =
+          objectMapper.readValue(result, TeamRedMinerStatResponse.class);
+      log.info("> succeeded: {}", response);
+
+      return TeamRedMinerMapper.map(response);
+    } catch (IOException e) {
+      log.error("i/o exception occurred: {}", e.getMessage());
+      throw new RuntimeException("failed to update tredminer %s:%s".formatted(ip, port));
     }
-
-    // write
-    String requestBodyBase64 = minerTemplateProperties.getTredminerRpcTemplate();
-    log.debug(
-        ">> write body: {}",
-        new String(Base64.getDecoder().decode(requestBodyBase64), StandardCharsets.UTF_8));
-    output.write(Base64.getDecoder().decode(requestBodyBase64));
-
-    // read
-    byte[] resultBytes = input.readAllBytes();
-    log.debug(">> read {}bytes from stream", resultBytes.length);
-
-    String result = new String(resultBytes, StandardCharsets.UTF_8);
-    log.debug(">> string converted: {}", result);
-
-    // close
-    if (!socket.isClosed()) {
-      socket.close();
-    }
-
-    TeamRedMinerStatResponse response =
-        objectMapper.readValue(result, TeamRedMinerStatResponse.class);
-    log.info("> succeeded: {}", response);
-
-    return TeamRedMinerMapper.map(response);
   }
 
   public GMinerStatResponse getTrexminerStat(String ip, int port) {

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MinerRepository extends JpaRepository<Miner, String> {
   Optional<Miner> findByIp(String ip);
+
+  Optional<Miner> findByRigId(String rigId);
 }
