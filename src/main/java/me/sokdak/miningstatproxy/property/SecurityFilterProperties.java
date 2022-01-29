@@ -9,6 +9,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @RequiredArgsConstructor
 @ConstructorBinding
 @ConfigurationProperties(prefix = "security")
-public class SecurityProperties {
+public class SecurityFilterProperties {
   private final String apiKey;
 }
