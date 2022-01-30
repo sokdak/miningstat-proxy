@@ -1,0 +1,12 @@
+logging:
+  level:
+    root: info
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://mysql:3306/miningstat?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: ${SPRING_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver

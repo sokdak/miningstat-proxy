@@ -7,7 +7,7 @@ plugins {
 
 group = 'me.sokdak'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "15"
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -30,6 +30,7 @@ dependencies {
     // database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
     implementation 'com.h2database:h2:2.1.210'
+    implementation 'mysql:mysql-connector-java:8.0.25'
 
     // quartz
     implementation 'org.springframework.boot:spring-boot-starter-quartz:2.6.3'
@@ -40,7 +41,7 @@ test {
 }
 
 bootBuildImage {
-    imageName = "sokdak/miningstat-proxy:v0.0.1"
+    imageName = "sokdak/miningstat-proxy:v0.1.0"
 }
 
 spotless {
@@ -52,4 +53,3 @@ spotless {
         googleJavaFormat()
     }
 }
-targetCompatibility = JavaVersion.VERSION_15
