@@ -41,7 +41,7 @@ public class PoolingJobConfig {
                       type));
 
           try {
-            scheduler.scheduleJob(statPoolingJob, buildJobTrigger("* * * * * ?"));
+            scheduler.scheduleJob(statPoolingJob, buildJobTrigger(3));
           } catch (SchedulerException e) {
             e.printStackTrace();
           }
@@ -51,6 +51,12 @@ public class PoolingJobConfig {
   private Trigger buildJobTrigger(String cronString) {
     return TriggerBuilder.newTrigger()
         .withSchedule(CronScheduleBuilder.cronSchedule(cronString))
+        .build();
+  }
+
+  private Trigger buildJobTrigger(int repeatIntervalSec) {
+    return TriggerBuilder.newTrigger()
+        .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(repeatIntervalSec))
         .build();
   }
 

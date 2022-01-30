@@ -13,6 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GMinerStatResponse {
+  public static final String TYPE_GMINER = "gminer";
+
   private Integer uptime;
   private String server;
   private String user;

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse;
 import me.sokdak.miningstatproxy.service.ProxyService;
-import me.sokdak.miningstatproxy.service.StatPersistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stat")
 @RequiredArgsConstructor
 public class ProxyController {
-  private final StatPersistService statPersistService;
   private final ProxyService proxyService;
 
   @GetMapping("/{rigId}")

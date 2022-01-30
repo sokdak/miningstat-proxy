@@ -4,11 +4,15 @@ import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
 import me.sokdak.miningstatproxy.domain.Device;
 import me.sokdak.miningstatproxy.domain.Miner;
+import me.sokdak.miningstatproxy.dto.MinerStatResponse;
 import me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse;
 
 public class DeviceMapper {
-  public static GMinerStatResponse map(Miner miner) {
-    return new GMinerStatResponse(
+  public static MinerStatResponse map(Miner miner) {
+    return new MinerStatResponse(
+        miner.getRigId(),
+        miner.getCreatedTime(),
+        miner.getUpdatedTime(),
         miner.getUptime(),
         miner.getServer(),
         miner.getUser(),
@@ -16,7 +20,7 @@ public class DeviceMapper {
         miner.getDevices().stream()
             .map(
                 d ->
-                    new GMinerStatResponse.Device(
+                    new MinerStatResponse.MiningDevice(
                         d.getGpuId(),
                         d.getName(),
                         d.getSpeed(),

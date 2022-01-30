@@ -14,6 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TRexMinerStatResponse {
+  public static final String TYPE_TREXMINER = "trexminer";
+
   private int acceptedCount;
   private String algorithm;
   private double difficulty;

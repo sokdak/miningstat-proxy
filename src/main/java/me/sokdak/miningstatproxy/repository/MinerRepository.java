@@ -10,4 +10,6 @@ public interface MinerRepository extends JpaRepository<Miner, String> {
   Optional<Miner> findByIp(String ip);
 
   Optional<Miner> findByRigId(String rigId);
+
+  void deleteByRigId(String rigId);
 }

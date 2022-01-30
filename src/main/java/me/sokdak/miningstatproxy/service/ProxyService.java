@@ -1,5 +1,9 @@
 package me.sokdak.miningstatproxy.service;
 
+import static me.sokdak.miningstatproxy.dto.miner.GMinerStatResponse.TYPE_GMINER;
+import static me.sokdak.miningstatproxy.dto.miner.TRexMinerStatResponse.TYPE_TREXMINER;
+import static me.sokdak.miningstatproxy.dto.miner.TeamRedMinerStatResponse.TYPE_TEAMREDMINER;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,11 +34,11 @@ public class ProxyService {
 
   public GMinerStatResponse getMinerStat(String ip, int port, String type) {
     switch (type) {
-      case "gminer":
+      case TYPE_GMINER:
         return getGminerStat(ip, port);
-      case "tredminer":
+      case TYPE_TEAMREDMINER:
         return getTRminerStat(ip, port);
-      case "trexminer":
+      case TYPE_TREXMINER:
         return getTrexminerStat(ip, port);
       default:
         throw new RuntimeException("minerType %s is not supported".formatted(type));

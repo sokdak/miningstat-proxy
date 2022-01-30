@@ -14,6 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamRedMinerStatResponse {
+  public static final String TYPE_TEAMREDMINER = "tredminer";
+
   private Summary summary;
   private Device devs;
   private DeviceDetail devdetails;
