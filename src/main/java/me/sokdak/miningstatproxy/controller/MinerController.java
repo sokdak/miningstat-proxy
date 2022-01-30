@@ -27,8 +27,8 @@ public class MinerController {
     return ResponseEntity.ok(statPersistService.list());
   }
 
-  @GetMapping("{rigId}")
-  public ResponseEntity<GMinerStatResponse> get(@RequestParam String rigId) {
+  @GetMapping("/{rigId}")
+  public ResponseEntity<GMinerStatResponse> get(@PathVariable String rigId) {
     return ResponseEntity.ok(statPersistService.get(rigId));
   }
 }
