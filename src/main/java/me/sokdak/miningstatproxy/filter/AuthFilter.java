@@ -33,12 +33,15 @@ public class AuthFilter extends OncePerRequestFilter {
       if (!authKeyHeader.equalsIgnoreCase(securityFilterProperties.getApiKey()))
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "api key does not match");
     }
+    else {
+      log.info(">> bypassing filter; excluded path {}", request.getServletPath());
+    }
     filterChain.doFilter(request, response);
   }
 
   private boolean isExcludedPath(HttpServletRequest request) {
     String path = request.getServletPath();
-    List<String> excludePaths = List.of("/index.html", "/script.js", "/style.css");
-    return excludePaths.stream().anyMatch(path::startsWith);
+    List<String> excludePaths = List.of("/", "/index.html", "/script.js", "/style.css");
+    return excludePaths.stream().anyMatch(path::equalsIgnoreCase);
   }
 }
